@@ -43,12 +43,14 @@ const PersonalInfo  = ({incrementStep,decrementStep, addPersonalInfo,currentStep
     //console.log("setRegisterStep",setRegisterStep)
    
     return <Formik validateOnChange={true}
-    initialValues={initialInfo} 
+    enableReinitialize
+    initialValues={initialInfo}
+    validateOnMount={true}
     validate={validate}
     validationSchema={personaInfoSchema}
-    onSubmit={values => {
+    onSubmit={(values,{resetForm}) => {
         // same shape as initial values
-        
+        resetForm()
         incrementStep(currentStep+1)
         addPersonalInfo(values)
         /**
@@ -56,24 +58,23 @@ const PersonalInfo  = ({incrementStep,decrementStep, addPersonalInfo,currentStep
         */
     }}
 
->{({ errors, touched,isValid,dirty, validateField, submitForm, handleSubmit, values, handleChange }) => (
+>{({ errors, setFieldValue,touched,isValid,dirty, validateField, submitForm, handleSubmit, values, handleChange }:any) => (
     <Form className="form-elements">
-       
-
-       <Field id="standard-basic1" error={errors.firstName && touched.firstName ? true : false}
+        
+       <Field id="standard-basic1"  value={values.firstName} error={errors.firstName && touched.firstName ? true : false}
             label="First Name" name="firstName" as={TextField}
             helperText={(errors.firstName && touched.firstName) && errors.firstName}
         />
-        <Field id="standard-basic2" error={errors.lastName && touched.lastName ? true : false}
+        <Field id="standard-basic2"  value={values.lastName} error={errors.lastName && touched.lastName ? true : false}
             label="Last Name" name="lastName" as={TextField}
             helperText={(errors.lastName && touched.lastName) && errors.lastName}
         />
-        <Field id="standard-basic3" error={errors.emailId && touched.emailId ? true : false}
+        <Field id="standard-basic3"  value={values.emailId} error={errors.emailId && touched.emailId ? true : false}
             label="Email" name="emailId" as={TextField}
             helperText={(errors.emailId && touched.emailId) && errors.emailId}
         />
 
-        <Field id="standard-basic4" type="password"
+        <Field id="standard-basic4"  value={values.password} type="password"
             error={errors.password && touched.password ? true : false}
             label="Password" name="password" as={TextField}
             helperText={(errors.password && touched.password) && errors.password}
@@ -84,8 +85,8 @@ const PersonalInfo  = ({incrementStep,decrementStep, addPersonalInfo,currentStep
                     variant="contained"
                     color="primary"
                     onClick={submitForm}
+                    disabled={!(isValid)}
                    
-                    disabled={!(isValid && dirty)}
                   >
                      Next
                   </Button>
@@ -96,6 +97,15 @@ const PersonalInfo  = ({incrementStep,decrementStep, addPersonalInfo,currentStep
    
 }
 
+function Effect(props:any) {
+    const effect = () => {
+      if (props.formik.submitCount > 0 && !props.formik.isValid) {
+        props.onSubmissionError();
+      }
+    };
+    React.useEffect(effect, [props.formik.submitCount]);
+    return null;
+}
 
 //const PersonalInfoComp =  connect(mapStateToProps,mapDispatchToProps)(PersonalInfo);
 const mapStateToProps = (state:any) => {

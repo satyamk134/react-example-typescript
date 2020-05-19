@@ -1,18 +1,22 @@
-import { IPersonalInfo } from './models';
-
+// import { IPersonalInfo } from './models';
+import {IPersonalInfo,AddPersonalAction,ADD_PERSONAL_INFO} from '../actions/index' 
 let defaultPeronalvalue = {
   emailId:"",password:"",firstName:"", lastName:""
 }
-const PersonalInfo = (state:IPersonalInfo = defaultPeronalvalue, action:any) => {
+
+let intialState:IPersonalInfo = {
+  emailId:"",
+  password:"",
+  firstName:"",
+  lastName:""
+}
+const PersonalInfo = (state:IPersonalInfo = intialState, action:AddPersonalAction):IPersonalInfo => {
   
       switch (action.type) {
-        case 'ADD_PERSONAL_INFO':
+        case ADD_PERSONAL_INFO:
           return {
             ...state,
-            emailId:action.emailId,
-            password:action.password,
-            firstName:action.firstName,
-            lastName:action.lastName
+            ...action.personalInfo
           }
         default:
           return state

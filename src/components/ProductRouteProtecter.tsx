@@ -2,7 +2,7 @@ import React  from 'react'
 import {Route,Redirect} from "react-router-dom";
 
 const checkIfRoleIsCustomer = ()=>{
-  
+    console.log("came to check role")
     //let userInfo = JSON.parse(localStorage.getItem('userInfo') === null?"":localStorage.getItem('userInfo'));
     let userInfoCopy = (localStorage.getItem('userInfo'));
     let userInfo = JSON.parse(userInfoCopy === null?"":userInfoCopy);

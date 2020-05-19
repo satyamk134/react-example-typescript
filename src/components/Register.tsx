@@ -84,26 +84,7 @@ function Register({currentStep,gotoLastStep,newUserDetails,intilisePersonalInfo,
             <StepLabel>{label}</StepLabel>
             <StepContent>
               <Typography component={'span'} variant={'body2'}>{getStepContent(index)}</Typography>
-              <div className={classes.actionsContainer}>
-                <div>
-                  {/* <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                    disabled={true}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button> */}
-                </div>
-              </div>
+              
             </StepContent>
           </Step>
         ))}
@@ -138,8 +119,8 @@ const mapDispatchToProps = (dispatch:any) => {
     
     return ({
         gotoLastStep: (step:any) => dispatch(setRegisterStep(step)),
-        intilisePersonalInfo:(userInfo:any)=>dispatch(addPersonalInfo({})),
-        initialPaymentInfo:(info:any)=>dispatch(addPaymentInfo({}))
+        intilisePersonalInfo:(userInfo:any)=>dispatch(addPersonalInfo({emailId:'',password:'',firstName:'',lastName:''})),
+        initialPaymentInfo:(info:any)=>dispatch(addPaymentInfo({accountNumber:'',panNumber:''}))
     })
 }
 

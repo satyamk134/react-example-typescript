@@ -5,9 +5,10 @@ import {Route,Redirect} from "react-router-dom";
 
 
 const checkIfTokenValid = () => {
-    ////console.log("came to check token")
+    console.log("came to check token",localStorage.getItem('token'))
     if(localStorage.getItem('token') === 'undefined' || !localStorage.getItem('token') )
     {
+      
       return false;
     }else{
       
@@ -17,8 +18,11 @@ const checkIfTokenValid = () => {
 const PrivateRoute = ({component:Component,bordcastLogin, ...rest}:any)=>{
    
     if(checkIfTokenValid() === true){
+      console.log("token is valid")
         bordcastLogin(false);
-    } 
+    } else{
+      console.log("toekn is invalid")
+    }
     return <Route
     {...rest}
     render={({ location,props }:any) =>
@@ -44,7 +48,7 @@ const PrivateRoute = ({component:Component,bordcastLogin, ...rest}:any)=>{
 const mapDispatchToProps = (dispatch:any) => {
     
     return ({
-        bordcastLogin: (status:boolean) => dispatch(setUserLoginStatus(status))
+        bordcastLogin: (status:boolean) => dispatch(setUserLoginStatus({loginStatus:status}))
 })}
 
 export default connect(

@@ -1,13 +1,18 @@
-import {IPaymentInfo} from './models';
 
-const paymentInfo = (state:IPaymentInfo = {accountNumber:"", panNumber:""}, action:any) => {
+import {ADD_PAYMENT_INFO, IPaymentInfo,AddPaymentAction} from '../actions/index'
+
+const initialState = {
+  accountNumber:"",
+  panNumber:""
+}
+
+const paymentInfo = (state:IPaymentInfo = initialState, action:AddPaymentAction):IPaymentInfo => {
    
       switch (action.type) {
-        case 'ADD_PAYMENT_INFO':
+        case ADD_PAYMENT_INFO:
           return {
             ...state,
-            accountNumber:action.accountNumber,
-            panNumber:action.panNumber
+            ...action.paymentInfo
         }
         default:
           return state

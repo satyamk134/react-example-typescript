@@ -25,6 +25,7 @@ const PaymentInfo  = ({incrementStep,decrementStep,initialPayemntInfo,currentSte
     }
     return <Formik 
     initialValues={initialPayemntInfo}
+    validateOnMount={true}
     validationSchema={LoginSchema}
     onSubmit={values => {
         // same shape as initial values

@@ -17,9 +17,7 @@ type PropsType = RouteComponentProps<PathParamsType> & {
 }
 //const routeToloc = ()=>withRouter(({history})=>history.push('new-location'))
 
-interface btnInfo {
-  
-}
+
 const ButtonLink = ({ history,link,text,color,onClick}:PropsType) => {  
   
   switch(color){

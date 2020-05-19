@@ -1,5 +1,5 @@
-import React from "react";
-import { ILoginRes } from '../models'
+import React, { Dispatch } from "react";
+import { ILoginRes,IUserInfo } from '../models'
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom";
 import { Formik, Form, Field } from 'formik';
@@ -9,7 +9,7 @@ import qs from 'qs'
 import ButtonLink from '../ButtonLink';
 import TextField from '@material-ui/core/TextField';
 import '../login/login.scss';
-
+import {setUserLoginStatus,TloginStatus,LoginAction } from '../../actions/index'
 const LoginSchema = Yup.object().shape({
     email: Yup.string()
         .email('Invalid Email')
@@ -48,8 +48,8 @@ class login extends React.Component<{location:any,history:any},{}> {
     contiuteWithLocalHandler = ({email:emailId, password}:any)=>{
         loginService.login({emailId, password})
         .then((response:{data:ILoginRes})=>{
-            
-            this.reDirectToDashboard(response.data)
+            console.log("response.data",response.data)
+            this.reDirectToDashboard(response.data.data)
         })
     }
 
@@ -85,7 +85,7 @@ class login extends React.Component<{location:any,history:any},{}> {
         //    });
     }
 
-    reDirectToDashboard = ({ token, lastName, role, emailId }:any) => {
+    reDirectToDashboard = ({ token, lastName, role, emailId }:IUserInfo) => {
    
         localStorage.removeItem('token');
         localStorage.setItem('token', token);
@@ -100,6 +100,7 @@ class login extends React.Component<{location:any,history:any},{}> {
         if(role === 'admin') {
             this.props.history.push('/dashboard')
         }else{
+            console.log("came to products")
             this.props.history.push("/products")
         }
         
@@ -124,8 +125,8 @@ class login extends React.Component<{location:any,history:any},{}> {
                 <div className="form-wrapper">
                     <Formik validateOnChange={true}
                         initialValues={{
-                            email: '',
-                            password: '',
+                            email: 'satyam6@gmail.com',
+                            password: '123456',
                         }}
                         validationSchema={LoginSchema}
                         onSubmit={values => {
@@ -148,12 +149,12 @@ class login extends React.Component<{location:any,history:any},{}> {
                                 </div>
                             </div>
 
-                            <Field id="standard-basic" error={errors.email && touched.email ? true : false}
+                            <Field id="standard-basic" value={values.email} error={errors.email && touched.email ? true : false}
                                 label="Email" name="email" as={TextField}
                                 helperText={(errors.email && touched.email) && errors.email}
                             />
 
-                            <Field id="standard-basic1" type="password"
+                            <Field id="standard-basic1" type="password" value={values.password}
                                 error={errors.password && touched.password ? true : false}
                                 label="Password" name="password" as={TextField}
                                 helperText={(errors.password && touched.password) && errors.password}
@@ -182,15 +183,15 @@ class login extends React.Component<{location:any,history:any},{}> {
 
 }
 
-const mapStateToprops = state=>{
+const mapStateToprops = (state:TloginStatus)=>{
     return ({loggedIn:state.loginStatus })
 }
 
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch:Dispatch<LoginAction>) => {
    
     return ({
-        setUserLoginStatus: status => dispatch(setUserLoginStatus(status))
+        setUserLoginStatus: (loginStatus:boolean) => dispatch(setUserLoginStatus({loginStatus:true}))
     })
 }
 // export default login

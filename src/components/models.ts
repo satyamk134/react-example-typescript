@@ -1,6 +1,6 @@
 export interface IProduct {
     category: string,
-    productName: string,
+    productName: string
     sellerId: string,
     images:Array<{link:String}>,
     sellingPrice:number
@@ -14,13 +14,15 @@ export interface IProducts {
     
 }
 
+
+export interface IUserInfo{
+    role:String
+    lastName:String
+    emailId:String
+    token:string
+}
+
 export interface ILoginRes{
-    data:{
-        role:String,
-        lastName:String,
-        emailId:String,
-        token:String
-        
-    }
+    data:IUserInfo
 }
 

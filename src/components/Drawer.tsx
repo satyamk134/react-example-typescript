@@ -21,16 +21,20 @@ const useStyles = makeStyles({
 interface IDraw{
   open:{sideBar:boolean},
 }
+
+function typedKeys<L>(o: L): (keyof L)[] {
+  // type cast should be safe because that's what really Object.keys() does
+  return Object.keys(o) as (keyof L)[];
+}
 export default function TemporaryDrawer({open}:IDraw) {
   
   const classes = useStyles();
   
   const [state, setState] = React.useState({
-    
     left: false,
   });
   useEffect( () => {
-    if(open.sideBar === true){
+    if(open.sideBar === true) {
         setState({...state, 'left':true})
     }
 }, [open])
@@ -77,10 +81,10 @@ export default function TemporaryDrawer({open}:IDraw) {
 
   return (
     <div>
-      {['left'].map((anchor) => (
+      {typedKeys(state).map((anchor) => (
         <React.Fragment key={anchor}>
          
-          <Drawer anchor="left"  onClose={toggleDrawer(anchor, false)}>
+          <Drawer anchor="left" open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
             {list(anchor)}
           </Drawer>
         </React.Fragment>
