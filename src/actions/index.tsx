@@ -1,3 +1,6 @@
+import { IProducts, getProductsAction,PRODUCTS, FETCH_PRODUCT_API,fetchProductApiAction, LOGOUT,
+    logoutAction} from '../reducers/models'
+import { IProduct } from '../components/models'
 let nextTodoId = 0
 export const addTodo = (text: any) => ({
     type: 'ADD_TODO',
@@ -32,13 +35,13 @@ export type TloginStatus = {
  */
 export interface LoginAction {
     type: typeof SET_LOGIN_STATUS,
-    loginStatus: TloginStatus
+    login: TloginStatus
 }
 export const setUserLoginStatus = (loginStatus: TloginStatus): LoginAction => {
 
     return ({
         type: SET_LOGIN_STATUS,
-        loginStatus: loginStatus
+        login: loginStatus
     })
 }
 
@@ -111,6 +114,27 @@ export const addPaymentInfo = ({ accountNumber, panNumber }: IPaymentInfo):AddPa
         }
     })
 }
+
+export const getProdcuts = ():fetchProductApiAction=>({
+    type: FETCH_PRODUCT_API,
+})
+
+export const fetchedProducts = ({data}:IProducts) => ({
+    type:PRODUCTS,
+    data
+})
+
+
+export const logout = ():logoutAction=>({
+    type:LOGOUT,
+   
+
+})
+
+
+export const getCount = () => ({
+    type: 'FETCH_PRODUCT'
+});
 
 export const VisibilityFilters = {
     SHOW_ALL: 'SHOW_ALL',

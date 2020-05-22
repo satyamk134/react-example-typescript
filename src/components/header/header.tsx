@@ -1,4 +1,4 @@
-import React ,{ useState, useEffect, useCallback }  from 'react';
+import React ,{ useState, useEffect, useCallback, Dispatch }  from 'react';
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,8 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from "react-router-dom";
 import { setUserLoginStatus } from '../../actions/index' 
-import TemporaryDrawer from '../../components/Drawer'
-
+import TemporaryDrawer from '../Drawer'
+import { TloginStatus} from '../../actions'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -34,47 +34,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const  Header = ({logout}) => {
+const  Header = ({loggedIn,logout}:any) => {
   const classes = useStyles();
   const history = useHistory();
  
-  const [loggedIn,setlogin] = useState(false);
-  const [sideBar,setSideBar] = useState(false);
+  // const [loggedIn,setlogin] = useState(false);
+  // const [sideBar,setSideBar] = useState(false);
   
-  useEffect(() => {
-    //checking if token is present in localStorage
-    //console.log("localStorage.getItem('token') ",localStorage.getItem('token') )
-    if(localStorage.getItem('token') === 'undefined' || !localStorage.getItem('token') )
-    {
-      //console.log("invalid token");
-      setlogin(false)
-    }else{
-      //console.log("user is logged in with valid token");
-      let userInfo = JSON.parse(localStorage.getItem('userInfo'))
-      if(userInfo){
-        if(userInfo.role === 'admin') {
-          history.push('/dashboard')
-        }else{
-          history.push("/products")
-        }
-        setlogin(true)
-      }
-     
-    }
-   
-  },[history]);
+ 
 
  
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('userInfo')
     logout(false)
-    history.push('/login')
-  })
+        history.push('/login')
+  }
 
   const setSideBarHandler = () => {
     //console.log("set bar called",sideBar);
-    setSideBar({...sideBar,sideBar:true});
+    //setSideBar(true);
     //console.log("set bar called",sideBar);
   }
 
@@ -97,25 +76,26 @@ const  Header = ({logout}) => {
          
         </Toolbar>
       </AppBar>
-      <TemporaryDrawer open={sideBar}></TemporaryDrawer>
+      
     </div>
   );
 }
 
+interface IUserStatus{
+  userStatus:TloginStatus
+}
+const mapStateToProps = (state:IUserStatus)=>{
+  return ({loggedIn:state.userStatus.loginStatus })
+}
 
 
-
-
-
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch:Dispatch<any>) => {
   //console.log("dispatch called in visible to do list",dispatch)
   return ({
-      logout: status => dispatch(setUserLoginStatus(status))
+      logout: (status:any) => dispatch(setUserLoginStatus(status))
 })}
 
-export default connect(
-  null,mapDispatchToProps
-)(Header)
+export default connect(mapStateToProps,mapDispatchToProps)(Header)
 
 
 

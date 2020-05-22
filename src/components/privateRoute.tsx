@@ -19,8 +19,9 @@ const PrivateRoute = ({component:Component,bordcastLogin, ...rest}:any)=>{
    
     if(checkIfTokenValid() === true){
       console.log("token is valid")
-        bordcastLogin(false);
+        bordcastLogin(true);
     } else{
+      bordcastLogin(false);
       console.log("toekn is invalid")
     }
     return <Route

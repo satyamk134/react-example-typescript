@@ -1,4 +1,4 @@
-import Api from './axios';
+import {Api} from './axios';
 
 const api = new Api();
 

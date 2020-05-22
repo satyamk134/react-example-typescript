@@ -1,8 +1,10 @@
-import Api from './axios';
+import {Api} from './axios';
 
-const api = new Api();
+
 const ProductService = {
+    
     getProducts : ()=>{
+        const api  = new Api();
         return  api.getRequest({path:'/product/',data:{}})
     },
 

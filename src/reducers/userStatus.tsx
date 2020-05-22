@@ -7,7 +7,8 @@ const userLogin = (state:TloginStatus = initialState, action:LoginAction):Tlogin
   
       switch (action.type) {
         case SET_LOGIN_STATUS:
-          return action.loginStatus
+          return action.login
+        
         default:
           return state
       }

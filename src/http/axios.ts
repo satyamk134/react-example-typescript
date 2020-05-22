@@ -1,6 +1,9 @@
 
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { store } from '../store/redux-store';
+import {logout} from '../actions';
+
 const axios = require('axios');
 
 
@@ -57,7 +60,7 @@ instance.interceptors.response.use((apiResponse:IResponse) => {
     return apiResponse;
   }, (error:any) => {
     // handle the error
-    
+    store.dispatch(logout())
     if(error.response.status === 403) {
        console.log("ERror is",error.response.data)
        toast.error(error.response.data.err.msg)      
@@ -67,11 +70,9 @@ instance.interceptors.response.use((apiResponse:IResponse) => {
 
 class Api {
 
-    constructor() { 
-        //this.baseURL = 'http://localhost:4545/'
-        
+    constructor(){
+
     }
-    
     getRequest({path,data}:any) {
       
         let params = data
@@ -83,7 +84,7 @@ class Api {
     }
 }
 
-export default Api
+export { Api }
 
 
 

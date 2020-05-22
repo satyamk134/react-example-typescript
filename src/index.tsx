@@ -4,9 +4,10 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import Login from'./components/login/Login'
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { ToastContainer } from 'react-toastify';
 import rootReducer from './reducers'
+import rootSaga from './sagas';
 import HomeLayout from './Layouts/home/home';
 import AppLayout from './Layouts/app/app';
 import Products from './Layouts/app/products'
@@ -17,7 +18,10 @@ import { Route,  BrowserRouter as Router,Switch } from 'react-router-dom';
 import Users from  './components/users/users';
 import Contact from './components/contact-us/contact-us';
 import  {RegisterComp} from './components/Register';
-const store = createStore(rootReducer)
+
+import SagaExample from './components/saga-example';
+import { store } from  './store/redux-store'
+
 const routing = (
   <React.StrictMode>
   <ToastContainer></ToastContainer>
@@ -32,7 +36,8 @@ const routing = (
       <Route path="/users" component={Users} />
       <Route path="/contact" component={Contact} />
       <Route path="/register" component={RegisterComp} />
-       <Route path="*" component={NotFound} />
+      <Route path="/couter" component={SagaExample} />
+      <Route path="*" component={NotFound} />
      </Switch>
       
      

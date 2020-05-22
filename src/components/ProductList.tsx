@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
     
   }));
-const Products = ()=>{
+const ProductList = ({fetchedProducts, fetchProds}:any)=>{
   const   Inproducts:IProduct[] = [
     {
       category: "",
@@ -40,14 +40,7 @@ const Products = ()=>{
   }
   useEffect(() => {
     
-    
-    getProducts()
-    .then((response:IProducts)=>{
-      
-        let data = response.data.data
-        console.log("data is",data)
-        setProducts1(data);
-    })
+    fetchProds();
   },[]);
 
   function FormRow() {
@@ -55,7 +48,7 @@ const Products = ()=>{
    
       <React.Fragment>
         
-        {products.map((product,index)=>(<Grid key = {index} item xs={3}>
+        {fetchedProducts.map((product:any,index:any)=>(<Grid key = {index} item xs={3}>
             <Product  product={product}/>
         </Grid>))
         }
@@ -77,4 +70,4 @@ const Products = ()=>{
   );
 
 }
-export default Products
+export default ProductList
