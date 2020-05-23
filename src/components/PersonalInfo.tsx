@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {setRegisterStep, addPersonalInfo} from '../actions/index';
 import { connect } from 'react-redux'; 
-
+import { IPersonalInfo,AddPersonalAction,setRegisterAction } from  '../actions'
 const sleep = (ms:any) => new Promise(resolve => setTimeout(resolve, ms));
 const validate = (values:any /* only available when using withFormik */) => {
     
@@ -50,7 +50,7 @@ const PersonalInfo  = ({incrementStep,decrementStep, addPersonalInfo,currentStep
     validationSchema={personaInfoSchema}
     onSubmit={(values,{resetForm}) => {
         // same shape as initial values
-        resetForm()
+        //resetForm()
         incrementStep(currentStep+1)
         addPersonalInfo(values)
         /**
@@ -107,8 +107,12 @@ function Effect(props:any) {
     return null;
 }
 
-//const PersonalInfoComp =  connect(mapStateToProps,mapDispatchToProps)(PersonalInfo);
-const mapStateToProps = (state:any) => {
+type  TRegisterStep = {
+    registerStep:number,
+    personalInfo:IPersonalInfo
+}
+
+const mapStateToProps = (state:TRegisterStep) => {
     
     return ({
         currentStep: state.registerStep,
@@ -116,12 +120,12 @@ const mapStateToProps = (state:any) => {
     })
 }
 
-const mapDispatchToProps = (dispatch:any) => {
+const mapDispatchToProps = (dispatch:Dispatch<AddPersonalAction | setRegisterAction>) => {
    
     return ({
-        incrementStep: (step:any) => dispatch(setRegisterStep(step)),
-        decrementStep: (step:any) =>dispatch(setRegisterStep(step)),
-        addPersonalInfo: (personalInfo:any) =>dispatch(addPersonalInfo(personalInfo))
+        incrementStep: (step:number) => dispatch(setRegisterStep(step)),
+        decrementStep: (step:number) =>dispatch(setRegisterStep(step)),
+        addPersonalInfo: (personalInfo:IPersonalInfo) =>dispatch(addPersonalInfo(personalInfo))
     })
 }
 export default connect(mapStateToProps,mapDispatchToProps)(PersonalInfo)

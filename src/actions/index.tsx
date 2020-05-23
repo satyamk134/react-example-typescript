@@ -1,6 +1,7 @@
 import { IProducts, getProductsAction,PRODUCTS, FETCH_PRODUCT_API,fetchProductApiAction, LOGOUT,
     logoutAction} from '../reducers/models'
 import { IProduct } from '../components/models'
+import registerStep from '../reducers/registerStep'
 let nextTodoId = 0
 export const addTodo = (text: any) => ({
     type: 'ADD_TODO',
@@ -47,13 +48,28 @@ export const setUserLoginStatus = (loginStatus: TloginStatus): LoginAction => {
 
 
 
-export const setRegisterStep = (registerStep: number) => {
+export const SET_REGISTER_STEP = 'SET_REGISTER_STEP'
+
+export interface IregisterStep {
+    activeStep:number
+}
+
+export interface setRegisterAction{
+    type: typeof SET_REGISTER_STEP,
+    registerStep:number
+
+}
+
+
+export const setRegisterStep = (registerStep: number):setRegisterAction => {
 
     return ({
-        type: 'SET_REGISTER_STEP',
+        type: SET_REGISTER_STEP,
         registerStep: registerStep
     })
 }
+
+
 
 
 export const ADD_PERSONAL_INFO = 'ADD_PERSONAL_INFO';

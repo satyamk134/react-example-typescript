@@ -181,8 +181,8 @@ class login extends React.Component<{setUserLoginStatus: any,loggedIn:any,locati
                     <div className="form-wrapper">
                         <Formik validateOnChange={true}
                             initialValues={{
-                                email: 'satyam6@gmail.com',
-                                password: '123456',
+                                email: '',
+                                password: '',
                             }}
                             validationSchema={LoginSchema}
                             onSubmit={values => {
